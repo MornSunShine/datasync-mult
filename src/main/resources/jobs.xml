@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <code>4500000001</code>
+    <!--源数据库连接-->
+    <source>
+        <url>jdbc:postgresql://127.0.0.1:5432/test</url>
+        <username>postgres</username>
+        <password>postgres123</password>
+        <dbtype>postgresql</dbtype>
+        <driver>org.postgresql.Driver</driver>
+    </source>
+
+    <!--目标数据库连接-->
+    <dest>
+        <url>jdbc:sqlserver://localhost:1433;DatabaseName=test</url>
+        <username>test</username>
+        <password>test</password>
+        <dbtype>sqlserver</dbtype>
+        <driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
+    </dest>
+
+    <!--数据库同步任务，可以根据需要同步多个job-->
+    <jobs>
+        <job>
+            <name>sync_student</name> <!-- job的名称，每一个job的名称最好不一样 -->
+            <cron>0/10 * * * * ?</cron> <!-- 定时调度cron表达式 -->
+            <srcSql>select stu_name as name,stu_age as age,stu_sex as sex from stu_student</srcSql> <!-- 源数据库的查询语句 -->
+            <destTable>student</destTable> <!-- 目标数据库的数据表 -->
+            <destTableFields>name,age,sex</destTableFields> <!-- 目标数据库数据表的字段，必须和源数据库中查询语句的字段保持一致 -->
+            <destTableKey>name</destTableKey> <!-- 根据此字段判断同步的数据是否在目标数据库总存在 -->
+            <destTableUpdate>age,sex</destTableUpdate> <!-- 如果目标数据库中存在destTableKey标签字段相同的数据，则更新此字段，支持多字段更新 -->
+        </job>
+        <job>
+            <name>sync_teacher</name> <!-- job的名称，每一个job的名称最好不一样 -->
+            <cron>0/10 * * * * ?</cron> <!-- 定时调度cron表达式 -->
+            <srcSql>select tea_name as name,tea_age as age,tea_sex as sex from tea_teacher</srcSql> <!-- 源数据库的查询语句 -->
+            <destTable>teacher</destTable> <!-- 目标数据库的数据表 -->
+            <destTableFields>name,age,sex</destTableFields> <!-- 目标数据库数据表的字段，必须和源数据库中查询语句的字段保持一致 -->
+            <destTableKey>name</destTableKey> <!-- 根据此字段判断同步的数据是否在目标数据库总存在 -->
+            <destTableUpdate>age,sex</destTableUpdate> <!-- 如果目标数据库中存在destTableKey标签字段相同的数据，则更新此字段，支持多字段更新 -->
+        </job>
+    </jobs>
+</root>
