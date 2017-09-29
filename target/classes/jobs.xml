@@ -2,13 +2,6 @@
 <root>
     <code>4500000001</code>
     <!--源数据库连接-->
-    <!--<source>-->
-    <!--<url>jdbc:oracle:thin:@192.168.1.179:1521:XE</url>-->
-    <!--<username>test</username>-->
-    <!--<password>test</password>-->
-    <!--<dbtype>oracle</dbtype>-->
-    <!--<driver>oracle.jdbc.driver.OracleDriver</driver>-->
-    <!--</source>-->
     <source>
         <url>jdbc:postgresql://127.0.0.1:5432/test</url>
         <username>postgres</username>
@@ -18,13 +11,6 @@
     </source>
 
     <!--目标数据库连接-->
-    <!--<dest>-->
-    <!--<url>jdbc:sqlserver://192.168.1.191:1433;DatabaseName=test</url>-->
-    <!--<username>test</username>-->
-    <!--<password>test</password>-->
-    <!--<dbtype>sqlserver</dbtype>-->
-    <!--<driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>-->
-    <!--</dest>-->
     <dest>
         <url>jdbc:sqlserver://localhost:1433;DatabaseName=test</url>
         <username>test</username>

@@ -6,7 +6,7 @@
         <url>jdbc:postgresql://127.0.0.1:5432/test</url>
         <username>postgres</username>
         <password>postgres123</password>
-        <dbtype>postgresql</dbtype>
+        <dbtype>PostgreSQL</dbtype>
         <driver>org.postgresql.Driver</driver>
     </source>
 
@@ -15,9 +15,19 @@
         <url>jdbc:sqlserver://localhost:1433;DatabaseName=test</url>
         <username>test</username>
         <password>test</password>
-        <dbtype>sqlserver</dbtype>
+        <dbtype>SQLServer</dbtype>
         <driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
     </dest>
+
+    <!--推送数据库连接-->
+    <inter>
+        <url>jdbc:postgresql://127.0.0.1:5432/inter</url>
+        <username>postgres</username>
+        <password>postgres123</password>
+        <dbtype>PostgreSQL</dbtype>
+        <driver>org.postgresql.Driver</driver>
+    </inter>
+
 
     <!--数据库同步任务，可以根据需要同步多个job-->
     <jobs>
