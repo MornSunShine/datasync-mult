@@ -9,6 +9,7 @@ package com.maomorn.datasync.entity;
 public class DbInfo {
     String url;
     String username;
+    String dbname;
     String password;
     String dbtype;
     String driver;
@@ -19,6 +20,14 @@ public class DbInfo {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getDbname() {
+        return dbname;
+    }
+
+    public void setDbname(String dbname) {
+        this.dbname = dbname;
     }
 
     public String getUsername() {
