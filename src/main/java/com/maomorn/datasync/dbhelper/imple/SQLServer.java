@@ -30,7 +30,7 @@ public class SQLServer implements DbHelper {
         //获取更新列
         String[] updateFields = jobInfo.getDestTableUpdate().split(",");
         //获取目标表单键
-        String destTableKey = jobInfo.getDestTableKey();
+        String destTableKey = jobInfo.getDestTableKeys();
         //获取目标表单
         String destTable = jobInfo.getDestTable();
         Statement stat = conn.createStatement();

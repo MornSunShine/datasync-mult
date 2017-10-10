@@ -4,6 +4,7 @@
     <!--源数据库连接-->
     <source>
         <url>jdbc:postgresql://127.0.0.1:5432/test</url>
+        <dbname>test</dbname>
         <username>postgres</username>
         <password>postgres123</password>
         <dbtype>PostgreSQL</dbtype>
@@ -13,6 +14,7 @@
     <!--目标数据库连接-->
     <dest>
         <url>jdbc:sqlserver://localhost:1433;DatabaseName=test</url>
+        <dbname>test</dbname>
         <username>test</username>
         <password>test</password>
         <dbtype>SQLServer</dbtype>
@@ -21,40 +23,30 @@
 
     <!--推送数据库连接-->
     <inter>
-        <url>jdbc:postgresql://127.0.0.1:5432/inter</url>
-        <username>postgres</username>
-        <password>postgres123</password>
-        <dbtype>PostgreSQL</dbtype>
-        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:sqlserver://localhost:1433;DatabaseName=inter</url>
+        <dbname>inter</dbname>
+        <username>test</username>
+        <password>test</password>
+        <dbtype>SQLServer</dbtype>
+        <driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
     </inter>
 
 
     <!--数据库同步任务，可以根据需要同步多个job-->
     <jobs>
         <job>
-            <!-- job的名称，每一个job的名称最好不一样 -->
             <name>test_job</name>
-            <!-- 定时调度cron表达式 -->
             <cron>0/10 * * * * ?</cron>
-            <!-- 源数据库的查询语句 -->
-            <srcSql>select stu_name as name1,stu_age as age1,stu_sex as sex1,tea_name as name2,tea_age as ag2,tea_sex as sex2 from stu_student,tea_teacher</srcSql>
-            <!-- 目标数据库的数据表 -->
+            <srcSql>select stu_student.name as name1,stu_student.age as age1,stu_student.sex as sex1,tea_teacher.name as name2,tea_teacher.age as age2,tea_teacher.sex as sex2 from stu_student,tea_teacher</srcSql>
+            <interTable>test</interTable>
+            <interTableFields>name1,name2,age1,age2,sex1,sex2</interTableFields>
+            <interTableKeys>name1,name2</interTableKeys>
+            <interTableUpdate>age1,age2,sex1,sex2</interTableUpdate>
             <destTable>test</destTable>
-            <!-- 目标数据库数据表的字段，必须和源数据库中查询语句的字段保持一致 -->
-            <destTableFields>name1,age1,sex1,name2,age2,sex2</destTableFields>
-            <!-- 根据此字段判断同步的数据是否在目标数据库总存在 -->
-            <destTableKey>name1,name2</destTableKey>
-            <!-- 如果目标数据库中存在destTableKey标签字段相同的数据，则更新此字段，支持多字段更新 -->
-            <destTableUpdate>age1,sex1,age2,sex2</destTableUpdate>
-        </job>
-        <job>
-            <name>sync_student</name>
-            <cron>0/10 * * * * ?</cron> <!-- 定时调度cron表达式 -->
-            <srcSql>select stu_name as name,stu_age as age,stu_sex as sex from stu_student</srcSql> <!-- 源数据库的查询语句 -->
-            <destTable>student</destTable> <!-- 目标数据库的数据表 -->
-            <destTableFields>name,age,sex</destTableFields> <!-- 目标数据库数据表的字段，必须和源数据库中查询语句的字段保持一致 -->
-            <destTableKey>name</destTableKey> <!-- 根据此字段判断同步的数据是否在目标数据库总存在 -->
-            <destTableUpdate>age,sex</destTableUpdate> <!-- 如果目标数据库中存在destTableKey标签字段相同的数据，则更新此字段，支持多字段更新 -->
+            <destTableFields>name1,name2,age1,age2,sex1,sex2</destTableFields>
+            <destTableUpdate>age1,age2,sex1,sex2</destTableUpdate>
+            <destTableUpdateValues>age1,age2,sex1,sex2</destTableUpdateValues>
+            <destTableKeys>name1,name2</destTableKeys>
         </job>
     </jobs>
 </root>

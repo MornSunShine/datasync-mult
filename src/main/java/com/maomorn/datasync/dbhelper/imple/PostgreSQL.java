@@ -37,7 +37,7 @@ public class PostgreSQL implements DbHelper {
         //确定目标表
         String destTable = jobInfo.getDestTable();
         //确定目标表的判定键
-        String destTableKey = jobInfo.getDestTableKey();
+        String destTableKey = jobInfo.getDestTableKeys();
         //执行源数据库的表项查询，保存数据
         PreparedStatement pst = conn.prepareStatement(srcSql);
         ResultSet rs = pst.executeQuery();
@@ -66,7 +66,7 @@ public class PostgreSQL implements DbHelper {
         }
         if (count > 0) {
             sql = sql.deleteCharAt(sql.length() - 1);
-            if ((!jobInfo.getDestTableUpdate().equals("")) && (!jobInfo.getDestTableKey().equals(""))) {
+            if ((!jobInfo.getDestTableUpdate().equals("")) && (!jobInfo.getDestTableKeys().equals(""))) {
                 sql.append(" ON DUPLICATE KEY UPDATE ");
                 for (int i = 0; i < updateFields.length; i++) {
                     sql.append(updateFields[i]).

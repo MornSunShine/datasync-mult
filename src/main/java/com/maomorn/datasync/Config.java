@@ -19,10 +19,9 @@ import java.util.Iterator;
  * 读取jobs.xml内的配置信息，并封装成对象
  */
 public class Config {
-    public static class ConfigHolder {
-        private static final Config INSTANCE = new Config();
+    private static class ConfigHolder{
+        private static final Config INSTANCE=new Config();
     }
-
     private DbInfo srcDb;
     private DbInfo desDb;
     private DbInfo interDb;
@@ -33,17 +32,20 @@ public class Config {
         srcDb = new DbInfo();
         desDb = new DbInfo();
         interDb = new DbInfo();
+        jobList = new ArrayList<JobInfo>();
         SAXReader reader = new SAXReader();
         try {
-            URL url = Config.class.getResource("/.jobs.xml");
+            URL url = Config.class.getResource("/jobs.xml");
+            System.out.println(url.toString());
             Element root = reader.read(url).getRootElement();
             Element src = root.element("source");
             Element inter = root.element("inter");
             Element dest = root.element("dest");
             Element jobs = root.element("jobs");
-            for (Iterator i = jobs.elementIterator("job"); i.hasNext(); ) {
-                jobList.add((JobInfo) elementInObject((Element) i.next(), new JobInfo()));
+            for (Iterator it = jobs.elementIterator("job"); it.hasNext(); ) {
+                jobList.add((JobInfo) elementInObject((Element) it.next(), new JobInfo()));
             }
+
             elementInObject(src,srcDb);
             elementInObject(inter,interDb);
             elementInObject(dest,desDb);
@@ -54,10 +56,6 @@ public class Config {
             e.printStackTrace();
         }
 
-    }
-
-    public static final Config getInstance() {
-        return ConfigHolder.INSTANCE;
     }
 
     /**
@@ -76,6 +74,10 @@ public class Config {
             fields[i].set(o, e.element(fields[i].getName()).getTextTrim());
         }
         return o;
+    }
+
+    public static Config getInstance(){
+        return ConfigHolder.INSTANCE;
     }
 
     public DbInfo getSrcDb() {
