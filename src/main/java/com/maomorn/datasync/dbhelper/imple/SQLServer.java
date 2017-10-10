@@ -25,14 +25,15 @@ public class SQLServer implements DbHelper {
      */
     public String assembleSQL(String srcSql, Connection conn, JobInfo jobInfo) throws SQLException {
         //获取目标表单作用列
-        String fieldStr = jobInfo.getDestTableFields();
+        String fieldStr = jobInfo.getInterTableFields();
         String[] fields = fieldStr.split(",");
         //获取更新列
-        String[] updateFields = jobInfo.getDestTableUpdate().split(",");
+        String[] updateFields = jobInfo.getInterTableUpdate().split(",");
         //获取目标表单键
-        String destTableKey = jobInfo.getDestTableKeys();
+        String[] interKeys = jobInfo.getInterTableKeys().split(",");
         //获取目标表单
         String destTable = jobInfo.getDestTable();
+        PreparedStatement pst=conn.prepareStatement("asd");
         Statement stat = conn.createStatement();
         ResultSet rs = stat.executeQuery(srcSql);
         StringBuffer sql = new StringBuffer();
@@ -40,13 +41,13 @@ public class SQLServer implements DbHelper {
         //SQL命令装配
         while (rs.next()) {
             sql.append("IF NOT EXISTS (SELECT ").
-                    append(destTableKey).
+                    append(interKeys).
                     append(" FROM ").
                     append(destTable).
                     append(" WHERE ").
-                    append(destTableKey).
+                    append(interKeys).
                     append("='").
-                    append(rs.getString(destTableKey)).
+                    append(rs.getString(interKeys[0])).
                     append("')").
                     append("INSERT INTO ").
                     append(destTable).
@@ -68,9 +69,9 @@ public class SQLServer implements DbHelper {
                         append(i == (updateFields.length - 1) ? "'" : "',");
             }
             sql.append(" where ").
-                    append(destTableKey).
+                    append(interKeys).
                     append("='").
-                    append(rs.getString(destTableKey)).
+                    append(rs.getString(interKeys[0])).
                     append("';");
             count++;
             // this.logger.info("第" + count + "耗时: " + (new Date().getTime() - oneStart) + "ms");
